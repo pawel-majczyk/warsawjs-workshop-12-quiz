@@ -11,13 +11,12 @@
         <v-text-field v-model="userQuestion.answers[1]"></v-text-field>
         <v-text-field v-model="userQuestion.answers[2]"></v-text-field>
         <v-text-field v-model="userQuestion.answers[3]"></v-text-field>
-        <!-- <v-text-field v-model="userQuestion.correctAnswerIndex"></v-text-field> -->
-        <label for="">Która z odpowiedzi jest poprawna?</label>
-        <v-radio-group v-model="userQuestion.correctAnswerIndex" :mandatory="true">
-              <v-radio label="A" value="0"></v-radio>
-              <v-radio label="B" value="1"></v-radio>
-              <v-radio label="C" value="2"></v-radio>
-              <v-radio label="D" value="3"></v-radio>
+        <v-text-field v-model="userQuestion.correctAnswerIndex"></v-text-field>
+        <label>Która z odpowiedzi jest poprawna?</label>
+        <v-radio-group v-model="userQuestion.correctAnswerIndex">
+          <template v-for="(answer, index) in userQuestion.answers">
+              <v-radio :label="answer" :value="index" :key="index"></v-radio>
+            </template>
             </v-radio-group>
 
         <v-btn @click="addQuestion">Dodaj pytanie</v-btn>
@@ -44,17 +43,17 @@ export default {
   },
   props: ["numQuestions"],
   computed: {
-    normalizeQuestion() {
-      return {
-        title: this.userQuestion.title,
-        answers: this.userQuestion.answers,
-        correctAnswerIndex: +this.userQuestion.correctAnswerIndex
-      };
-    }
+    // normalizeQuestion() {
+    //   return {
+    //     title: this.userQuestion.title,
+    //     answers: this.userQuestion.answers,
+    //     correctAnswerIndex: +this.userQuestion.correctAnswerIndex
+    //   };
+    // }
   },
   methods: {
     addQuestion() {
-      this.$emit("new-question", this.normalizeQuestion);
+      this.$emit("new-question", this.userQuestion);
     }
   }
 };
